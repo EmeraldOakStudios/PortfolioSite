@@ -2,8 +2,23 @@ import React, { useRef, useEffect, Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useGLTF, OrbitControls } from '@react-three/drei';
 import { AnimationMixer, Clock, Color, TextureLoader } from 'three';
+import FPSControls from '../components/FPSControls';
+import CollisionSystem from '../components/CollisionSystem';
 
-function ThreeDScene({ url, albedo, opacity, metalness, roughness, emissive, rotX, rotY, rotZ, posX, posY, posZ, scale, isAnimating, animSpeed, camPosY }) {
+function ThreeDScene({ 
+  // Existing props for model viewer mode
+  url, albedo, opacity, metalness, roughness, emissive, 
+  rotX, rotY, rotZ, posX, posY, posZ, scale, 
+  isAnimating, animSpeed, camPosY,
+  
+  // New props for FPS room mode
+  mode = "viewer", // "viewer" or "fps"
+  roomBounds = { minX: -2, maxX: 2, minZ: -4, maxZ: 4 }, // 4m x 8m room
+  showBounds = false, // Debug: show collision boundaries
+  movementSpeed = 5,
+  lookSpeed = 0.002,
+  eyeHeight = 1.67
+}) {
 
   // console.log('URL:', url); // Add this line to log the URL
   const { scene, animations } = useGLTF(url);
@@ -44,8 +59,9 @@ function ThreeDScene({ url, albedo, opacity, metalness, roughness, emissive, rot
     }
   }, [animSpeed]);
 
-
   useEffect(() => {
+    if (!albedo) return; // Skip texture loading if no textures provided
+    
     const textureLoader = new TextureLoader();
     const ALBTexture = textureLoader.load(albedo); // Adjust path to your texture
     const OPYTexture = textureLoader.load(opacity); // Adjust path to your texture
@@ -66,22 +82,61 @@ function ThreeDScene({ url, albedo, opacity, metalness, roughness, emissive, rot
         child.material.needsUpdate = true;
       }
     });
-  }, [scene]);
+  }, [scene, albedo, opacity, metalness, roughness, emissive]);
+
+  // Different camera settings for different modes
+  const cameraProps = mode === "fps" 
+    ? { fov: 75, near: 0.1, far: 1000, position: [0, eyeHeight, 0] }
+    : { fov: 30, near: 0.5, far: 9999 };
 
   return (
-    <Canvas camera={{fov: 30, near:0.5, far:9999}}>
-      <ambientLight intensity={4} />
-      <directionalLight position={[0,camPosY,-100]} rotation={[0,0,0]} intensity={1.5} />
-      <directionalLight position={[0,camPosY,100]} rotation={[0,0,0]} intensity={3} />
-      <pointLight position={[posX+200, camPosY-50, posZ-100]} intensity={9} color={'#f403fc'}/>
+    <Canvas camera={cameraProps}>
+      {/* Lighting setup */}
+      <ambientLight intensity={mode === "fps" ? 0.6 : 4} />
+      <directionalLight 
+        position={mode === "fps" ? [5, 5, 5] : [0, camPosY, -100]} 
+        intensity={mode === "fps" ? 1 : 1.5} 
+      />
+      {mode === "viewer" && (
+        <>
+          <directionalLight position={[0,camPosY,100]} rotation={[0,0,0]} intensity={3} />
+          <pointLight position={[posX+200, camPosY-50, posZ-100]} intensity={9} color={'#f403fc'}/>
+        </>
+      )}
+      {mode === "fps" && (
+        <>
+          <directionalLight position={[-5, 5, -5]} intensity={0.8} />
+          <pointLight position={[0, 2, 0]} intensity={0.5} />
+        </>
+      )}
+
       <Suspense fallback={null}>
         <primitive 
           object={scene} 
-          rotation={[rotX, rotY, rotZ]}
-          position={[posX, posY, posZ]}
-          scale={[scale, scale, scale]}
+          rotation={mode === "fps" ? [0, 0, 0] : [rotX, rotY, rotZ]}
+          position={mode === "fps" ? [0, 0, 0] : [posX, posY, posZ]}
+          scale={mode === "fps" ? [1, 1, 1] : [scale, scale, scale]}
         />
-        <OrbitControls target={[posX, camPosY, posZ]}/>
+        
+        {/* Controls based on mode */}
+        {mode === "viewer" && (
+          <OrbitControls target={[posX, camPosY, posZ]}/>
+        )}
+        
+        {mode === "fps" && (
+          <>
+            <FPSControls 
+              movementSpeed={movementSpeed}
+              lookSpeed={lookSpeed}
+              eyeHeight={eyeHeight}
+              roomBounds={roomBounds}
+            />
+            <CollisionSystem 
+              roomBounds={roomBounds}
+              showBounds={showBounds}
+            />
+          </>
+        )}
       </Suspense>
     </Canvas>
   );
