@@ -11,7 +11,6 @@ function Home() {
   const [animSpeed, setAnimSpeed] = useState(1.15);
   const [featuredSocial, setFeaturedSocial] = useState([]);
   const [featuredProject, setFeaturedProject] = useState(null);
-  const [darkMode, setDarkMode] = useState(true);
 
   useEffect(() => {
     const projectId = 8; // Replace with the actual project ID
@@ -21,19 +20,7 @@ function Home() {
     setFeaturedSocial(social);
   }, []);
 
-<<<<<<< Updated upstream
   const tags = ['All', 'UI Art', 'Web Development', 'UX', 'Game Development', 'Illustration', '3D Animation', 'Mobile Applications'];
-=======
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [darkMode]);
-
-  const tags = ['All', 'Web Dev', 'UX', 'Game Dev', 'Illustration', '3D Animation', 'Mobile Apps', 'UI Art'];
->>>>>>> Stashed changes
 
   const availableSubtags = Array.from(new Set(
     projectsData
@@ -57,7 +44,6 @@ function Home() {
       );
 
   return (
-<<<<<<< Updated upstream
     <div className="bg-midnight">
       <div className="container mx-auto p-8 bg-midnight text-white2">
         <div className="grid grid-cols-2 gap-[1rem] w-[25rem] lg:h-[25rem] max-h-[15rem] ml-[-2.5rem] lg:gap-2 lg:mb-[-4.5rem] lg:ml-[-2rem] lg:w-[30rem] mb-[-3.5rem]">
@@ -101,66 +87,6 @@ function Home() {
               camPosY={featuredProject.modelProperties[3].camPosY}
             />
           )}
-=======
-    <div className="bg-midnight dark:bg-midnight bg-lightBG transition-colors duration-500 min-h-screen">
-      {/* Dark/Light mode toggle button */}
-      <button
-        className="fixed top-4 right-4 z-[9999] px-4 py-2 rounded-full bg-blueLIGHT text-midnight dark:bg-pink dark:text-white2 shadow-lg font-bold transition-colors duration-300"
-        onClick={() => setDarkMode(!darkMode)}
-        aria-label="Toggle dark mode"
-      >
-        {darkMode ? 'Light Mode' : 'Dark Mode'}
-      </button>
-      <div className="container mx-auto p-8 bg-midnight dark:bg-midnight bg-lightBG text-white2 dark:text-white2 pb-20 transition-colors duration-500">
-        {/* <div className="grid grid-cols-2 gap-[1rem] w-[25rem] lg:h-[25rem] max-h-[15rem] ml-[-2.5rem] lg:gap-2 lg:mb-[-4.5rem] lg:ml-[-2rem] lg:w-[30rem] mb-[-3.5rem]"></div> */}        
-        <div className='md:mb-[23rem] mb-[15rem] mt-[3rem] flex justify-center mr-[305px] md:mr-[66.6vw] lg:grid lg:grid-cols-2 lg:mr-[0px]'>
-          <div className='ml-[2.5vw]'>
-            <img src='./images/BluNPinkBox.png' className='absolute justify-center w-[300px] h-[150px] md:w-[530px] md:h-[280px]'/>
-            <img src='./gifs/Signature.gif' className='absolute justify-center w-[310px] md:w-[580px] mt-[30px] md:mt-[60px] ml-[15px] md:ml-[10px]'/>
-          </div>          
-          <div className="hidden lg:grid lg:grid-cols-2 lg:gap-[16px] lg:w-[400px] lg:h-[240px] lg:ml-[100px] lg:mb-[-200px]">
-            {featuredProject && (
-              <ThreeDScene
-                key={featuredProject.id}
-                url={featuredProject.ThreeDModels[2]}
-                albedo={featuredProject.ThreeDAlbedos[2]}
-                opacity={featuredProject.ThreeDOpacitys[2]}
-                metalness={featuredProject.ThreeDMetalness[2]}
-                emissive={featuredProject.ThreeDEmissive[2]}
-                posX={featuredProject.modelProperties[2].posX}
-                posY={featuredProject.modelProperties[2].posY}
-                posZ={featuredProject.modelProperties[2].posZ}
-                rotX={featuredProject.modelProperties[2].rotX}
-                rotY={featuredProject.modelProperties[2].rotY}
-                rotZ={featuredProject.modelProperties[2].rotZ}
-                scale={featuredProject.modelProperties[2].scale}
-                animSpeed={animSpeed}
-                isAnimating={isAnimating}
-                camPosY={featuredProject.modelProperties[2].camPosY}
-              />
-            )}
-            {featuredProject && (
-              <ThreeDScene
-                key={featuredProject.id}
-                url={featuredProject.ThreeDModels[3]}
-                albedo={featuredProject.ThreeDAlbedos[3]}
-                opacity={featuredProject.ThreeDOpacitys[3]}
-                metalness={featuredProject.ThreeDMetalness[3]}
-                emissive={featuredProject.ThreeDEmissive[3]}
-                posX={featuredProject.modelProperties[3].posX}
-                posY={featuredProject.modelProperties[3].posY}
-                posZ={featuredProject.modelProperties[3].posZ}
-                rotX={featuredProject.modelProperties[3].rotX}
-                rotY={featuredProject.modelProperties[3].rotY}
-                rotZ={featuredProject.modelProperties[3].rotZ}
-                scale={featuredProject.modelProperties[3].scale}
-                animSpeed={animSpeed}
-                isAnimating={isAnimating}
-                camPosY={featuredProject.modelProperties[3].camPosY}
-              />
-            )}
-          </div>
->>>>>>> Stashed changes
         </div>
         <div className='lg:mb-[23rem] md:mb-[23rem] mb-[15rem] mt-[3rem]'>
           <img src='./images/BluNPinkBox.png' className='absolute w-[85vw] h-[20vh] sm:min-h-[5rem] sm:max-h-[25rem] md:min-h-[15rem] md:max-h-[30rem] md:h-[20vh] md:w-[35rem]'/>
