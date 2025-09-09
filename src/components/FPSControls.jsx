@@ -27,6 +27,8 @@ function FPSControls({
     // Set initial camera position (center of room at eye height)
     camera.position.set(0, eyeHeight, 0);
     camera.rotation.order = 'YXZ';
+
+    camera.rotation.set(0, 0, 0);
     
     // Keyboard event handlers
     const handleKeyDown = (event) => {
