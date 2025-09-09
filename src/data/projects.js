@@ -351,6 +351,26 @@ const projects = [
     creditCategory: ['Programmer','Designer','UX'],
     creditSource: ['http://vapedropuk.com/'],
   },
+  {
+    id: 14,
+    title: 'Electruns',
+    description: 'A game I made in college back in 2018. My first foray into game development outside of basic prototypes. a 2D puzzle game designed to teach about the basics of conductors and insulators in an electrical ciruit. Made with Unity.',
+    imageURL: 'https://cdnb.artstation.com/p/assets/images/images/091/667/409/large/darragh-nolan-electrunssplashimage.jpg?1757445259',
+    contentURL: [
+      'https://cdna.artstation.com/p/assets/images/images/091/667/200/large/darragh-nolan-systemic-game-conductor-sprite.jpg?1757444770',
+      'https://cdnb.artstation.com/p/assets/images/images/091/667/203/large/darragh-nolan-systemic-game-insulator-sprite.jpg?1757444774',
+      'https://cdna.artstation.com/p/assets/images/images/091/667/204/large/darragh-nolan-systemicgame-lightbulboff.jpg?1757444779',
+      'https://cdna.artstation.com/p/assets/images/images/091/667/206/large/darragh-nolan-systemicgame-lightbulbon.jpg?1757444781',
+      'https://cdna.artstation.com/p/assets/images/images/091/667/198/large/darragh-nolan-systemic-game-battery-sprite.jpg?1757444766',
+      'https://cdnb.artstation.com/p/assets/images/images/091/667/195/large/darragh-nolan-batteryonv3.jpg?1757444762',
+      'https://cdna.artstation.com/p/assets/images/images/091/667/194/large/darragh-nolan-batteryoffv3.jpg?1757444760',
+    ],
+    tags: ['Game Dev','Illustration'],
+    subTags: ['Unity', 'Krita'],
+    credits: ['Darragh Nolan', 'Connor Jepson', 'Eoin McSharry', 'Oisín Fitzpatrick'],
+    creditCategory: ['Art Lead','Designer', 'Production Lead','Programmer'],
+    creditSource: ['https://dazariath.itch.io','https://papajepo.itch.io/','https://delta-rayquaza.itch.io/','https://oisin-the-ginger.itch.io/'],
+  },
   // Add more projects as needed
 ];
 
