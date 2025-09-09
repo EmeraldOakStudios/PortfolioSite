@@ -41,11 +41,11 @@ function FPSControls({
           break;
         case 'KeyA':
         case 'ArrowLeft':
-          keys.current.left = true;
+          keys.current.right = true;
           break;
         case 'KeyD':
         case 'ArrowRight':
-          keys.current.right = true;
+          keys.current.left = true;
           break;
       }
     };
@@ -62,11 +62,11 @@ function FPSControls({
           break;
         case 'KeyA':
         case 'ArrowLeft':
-          keys.current.left = false;
+          keys.current.right = false;
           break;
         case 'KeyD':
         case 'ArrowRight':
-          keys.current.right = false;
+          keys.current.left = false;
           break;
       }
     };
