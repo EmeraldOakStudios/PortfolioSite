@@ -3,7 +3,7 @@ const socials = [
       id: 1,
       title: 'LinkedIn',
       description: 'My LinkedIn, for business networking.',
-      imageURL: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/480px-LinkedIn_logo_initials.png',
+      imageURL: 'https://openvisualfx.com/wp-content/uploads/2019/10/linkedin-icon-logo-png-transparent.png',
       URL: 'https://www.linkedin.com/in/darragh-nolan-639125164',
       // Add more project details as needed
     },
@@ -27,7 +27,7 @@ const socials = [
         id: 4,
         title: 'Itch.io',
         description: 'Itch.io is an indie games website where I have some published games.',
-        imageURL: 'https://static-00.iconduck.com/assets.00/itch-io-icon-2048x2048-i6hzclad.png',
+        imageURL: 'https://img.icons8.com/ios11/600/FA5252/itch-io.png',
         URL: 'https://dazariath.itch.io/',
         // Add more project details as needed
     },
