@@ -82,10 +82,11 @@ const DetailsProject = () => {
         aria-label="Toggle dark mode"
       >
         <span className="sm:hidden">
-          {darkMode ? '🌙' : '☀️'}
+          <img src={darkMode ? './images/Dark.webp' : './images/Light.webp'} alt={darkMode ? 'Dark mode' : 'Light mode'} className="w-6 h-6 object-contain" />
         </span>
-        <span className="hidden sm:inline">
-          {darkMode ? '🌙 Dark' : '☀️ Light'}
+        <span className="hidden sm:inline flex items-center gap-2">
+          <img src={darkMode ? './images/Dark.webp' : './images/Light.webp'} alt={darkMode ? 'Dark mode' : 'Light mode'} className="w-6 h-6 object-contain inline" />
+          {darkMode ? ' Dark' : ' Light'}
         </span>
       </button>
 

@@ -58,15 +58,16 @@ function Home() {
     <div className="bg-lightBG dark:bg-midnight transition-colors duration-500 min-h-screen">
       {/* Dark/Light mode toggle button */}
       <button
-        className="fixed top-4 right-4 z-[9999] px-4 py-2 rounded-full bg-blueLIGHT text-midnight dark:bg-pink dark:text-white2 shadow-lg font-bold transition-all duration-300 hover:scale-110"
+        className="fixed top-4 right-4 z-[9999] px-4 py-2 rounded-full bg-blueLIGHT text-midnight dark:bg-pink dark:text-white2 shadow-lg font-bold transition-all duration-300 hover:scale-110 hover:italic hover:text-lg"
         onClick={toggleDarkMode}
         aria-label="Toggle dark mode"
       >
         <span className="sm:hidden">
-          {darkMode ? '🌙' : '☀️'}
+          <img src={darkMode ? './images/Dark.webp' : './images/Light.webp'} alt={darkMode ? 'Dark mode' : 'Light mode'} className="w-6 h-6 object-contain" />
         </span>
-        <span className="hidden sm:inline">
-          {darkMode ? '🌙 Dark' : '☀️ Light'}
+        <span className="hidden sm:inline flex items-center gap-2">
+          <img src={darkMode ? './images/Dark.webp' : './images/Light.webp'} alt={darkMode ? 'Dark mode' : 'Light mode'} className="w-6 h-6 object-contain inline" />
+          {darkMode ? ' Dark' : ' Light'}
         </span>
       </button>
 
@@ -137,7 +138,7 @@ function Home() {
           </h2>
         </div>
         <div className="fixed bottom-0 left-0 w-full bg-lightBG dark:bg-midnight border-t border-pink z-50 transition-colors duration-500">
-          <div className="flex justify-evenly items-center py-4 z-50">
+          <div className="bg-pattern flex justify-evenly items-center py-4 z-50">
             {featuredSocial.map((social) => (
               <div
                 key={social.id}
@@ -162,7 +163,7 @@ function Home() {
           {tags.map((tag) => (
             <button
               key={tag}
-              className={`m-2 w-full px-4 py-2 mb-2 rounded-full ${selectedTag === tag ? 'bg-lightBG dark:bg-midnight text-midnight dark:text-white2 border-[5px] border-blueLIGHT italic shadow-blueLIGHT shadow-lg font-bold' : 'bg-blue-500 text-midnight dark:text-white2 border-[1px] border-pink'} lg:text-2xl lg:font-bold transition-colors duration-300`}
+              className={`m-2 w-full px-4 py-2 mb-2 rounded-full hover:mb-0 ${selectedTag === tag ? 'bg-lightBG dark:bg-midnight text-midnight dark:text-white2 border-[5px] border-blueLIGHT italic shadow-blueLIGHT shadow-lg font-bold hover:shadow-blueLIGHT hover:mb-[0.575rem]' : 'bg-blue-500 text-midnight dark:text-white2 border-[1px] border-pink hover:shadow-pink hover:mb-0'} lg:text-2xl lg:font-bold transition-colors duration-300 shadow-none hover:shadow-lg hover:inset-shadow-lg hover:border-[4px] text-xl hover:italic hover:text-2xl transition-all duration-300`}
               onClick={() => {
                 setSelectedTag(tag);
                 setSelectedSubtags([]);
@@ -188,7 +189,7 @@ function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project) => (
             <Link key={project.id} to={`/detailsproject/${project.id}`}>
-              <div className='border-solid border-[1px] border-pink p-[10px] m-[10px] shadow-none hover:shadow-lg hover:shadow-pink hover:inset-shadow-lg hover:border-[4px] text-xl hover:italic hover:text-2xl transition-all duration-300'>
+              <div className='bg-pattern border-solid border-[1px] border-pink p-[10px] m-[10px] shadow-none hover:shadow-lg hover:shadow-pink hover:inset-shadow-lg hover:border-[4px] text-xl hover:italic hover:text-2xl transition-all duration-300'>
                 <h2 className="text-blueLIGHT font-semibold mb-4">{project.title}</h2>
                 <p className="text-sm mb-4 not-italic text-midnight dark:text-white2 transition-colors duration-300">{project.description}</p>
                 <img src={project.imageURL} alt={project.title} className="w-full min-h-32 max-h-48 object-cover mb-4" />
