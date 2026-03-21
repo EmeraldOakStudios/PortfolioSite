@@ -3,7 +3,7 @@ const socials = [
       id: 1,
       title: 'LinkedIn',
       description: 'My LinkedIn, for business networking.',
-      imageURL: 'https://openvisualfx.com/wp-content/uploads/2019/10/linkedin-icon-logo-png-transparent.png',
+      imageURL: 'images/LinkedInIconB.webp',
       URL: 'https://www.linkedin.com/in/darragh-nolan-639125164',
       // Add more project details as needed
     },
@@ -11,7 +11,7 @@ const socials = [
         id: 2,
         title: 'Artstation',
         description: 'My Artstation, where I have all of my art projects.',
-        imageURL: 'https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/27_Artstation_logo_logos-512.png',
+        imageURL: 'images/ArtstationIconB.webp',
         URL: 'https://www.artstation.com/dazariath',
         // Add more project details as needed
     },
@@ -19,7 +19,7 @@ const socials = [
         id: 3,
         title: 'Sketchfab',
         description: 'My Sketchfab, for showcasing my 3D skills.',
-        imageURL: 'https://static.sketchfab.com/img/press/logos/sketchfab-logo.png',
+        imageURL: 'images/SketchfabIconB.webp',
         URL: 'https://sketchfab.com/Dazariath',
         // Add more project details as needed
     },
@@ -27,7 +27,7 @@ const socials = [
         id: 4,
         title: 'Itch.io',
         description: 'Itch.io is an indie games website where I have some published games.',
-        imageURL: 'https://img.icons8.com/ios11/600/FA5252/itch-io.png',
+        imageURL: 'images/ItchioIconB.webp',
         URL: 'https://dazariath.itch.io/',
         // Add more project details as needed
     },

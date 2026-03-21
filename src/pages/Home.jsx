@@ -55,10 +55,10 @@ function Home() {
       );
 
   return (
-    <div className="bg-lightBG dark:bg-midnight transition-colors duration-500 min-h-screen">
+    <div className="bg-lightBG dark:bg-midnight dark:hover:shadow-pink hover:shadow-blueLIGHT transition-colors duration-500 min-h-screen">
       {/* Dark/Light mode toggle button */}
       <button
-        className="fixed top-4 right-4 z-[9999] px-4 py-2 rounded-full bg-blueLIGHT text-midnight dark:bg-pink dark:text-white2 shadow-lg font-bold transition-all duration-300 hover:scale-110 hover:italic hover:text-lg"
+        className="fixed top-4 right-4 z-[9999] px-4 py-2 rounded-full bg-blueLIGHT text-midnight dark:bg-pink dark:text-white2 shadow-lg font-bold transition-all duration-300 hover:scale-110 hover:italic hover:text-lg hover:shadow-blueLIGHT dark:hover:shadow-pink"
         onClick={toggleDarkMode}
         aria-label="Toggle dark mode"
       >
@@ -142,15 +142,20 @@ function Home() {
             {featuredSocial.map((social) => (
               <div
                 key={social.id}
-                className="cursor-pointer"
+                className="cursor-pointer group w-10 h-10 hover:w-12 hover:h-12 transition-transform duration-200"
                 onClick={() => window.open(social.URL, '_blank')}
               >
-              <img 
-                src={social.imageURL} 
-                alt={social.title} 
-                className="w-10 h-10 object-contain hover:opacity-75 transition-opacity duration-200" 
-              />
-            </div>
+                <img
+                  src={social.imageURL}
+                  alt={social.title}
+                  className="w-12 h-12 object-contain block group-hover:hidden not-focus:w-10 not-focus:h-10 duration-200"
+                />
+                <img
+                  src={social.imageURL.replace('IconB.', 'IconP.')}
+                  alt={social.title}
+                  className="w-10 h-10 object-contain hidden group-hover:block hover:w-12 hover:h-12 duration-200"
+                />
+              </div>
           ))}
         </div>
       </div>
@@ -163,7 +168,7 @@ function Home() {
           {tags.map((tag) => (
             <button
               key={tag}
-              className={`m-2 w-full px-4 py-2 mb-2 rounded-full hover:mb-0 ${selectedTag === tag ? 'bg-lightBG dark:bg-midnight text-midnight dark:text-white2 border-[5px] border-blueLIGHT italic shadow-blueLIGHT shadow-lg font-bold hover:shadow-blueLIGHT hover:mb-[0.575rem]' : 'bg-blue-500 text-midnight dark:text-white2 border-[1px] border-pink hover:shadow-pink hover:mb-0'} lg:text-2xl lg:font-bold transition-colors duration-300 shadow-none hover:shadow-lg hover:inset-shadow-lg hover:border-[4px] text-xl hover:italic hover:text-2xl transition-all duration-300`}
+              className={`m-2 w-full px-4 py-2 mb-2 rounded-full hover:mb-0 ${selectedTag === tag ? 'bg-lightBG dark:bg-midnight text-midnight dark:text-white2 border-[5px] border-blueLIGHT italic shadow-blueLIGHT shadow-lg font-bold hover:shadow-blueLIGHT hover:mb-[0.575rem]' : 'bg-blue-500 text-midnight dark:text-white2 border-[1px] border-pink hover:shadow-pink hover:mb-0'} lg:text-2xl lg:font-bold shadow-none text-xl hover:shadow-lg hover:inset-shadow-lg hover:border-[4px] hover:italic hover:text-2xl transition-all duration-300`}
               onClick={() => {
                 setSelectedTag(tag);
                 setSelectedSubtags([]);
@@ -177,7 +182,7 @@ function Home() {
                 {availableSubtags.map((subtag) => (
                   <button
                     key={subtag}
-                    className={`mr-4 ml-[1rem] px-4 py-2 mb-2 rounded-full font-bold transition-colors duration-300 ${selectedSubtags.includes(subtag) ? 'bg-pink text-white2 border-[1px] border-white2 italic shadow-pink shadow-lg' : 'bg-blueLIGHT text-midnight border-[1px] border-blueLIGHT'}`}
+                    className={`mr-4 ml-[1rem] px-4 py-2 mb-2 rounded-full font-bold hover:shadow-lg hover:inset-shadow-lg hover:shadow-blueLIGHT hover:italic transition-all duration-300 ${selectedSubtags.includes(subtag) ? 'bg-pink text-white2 border-[1px] border-pink italic shadow-pink shadow-lg hover:shadow-pink' : 'bg-blueLIGHT text-midnight border-[1px] border-blueLIGHT'}`}
                     onClick={() => toggleSubtag(subtag)}
                   >
                     {subtag}
