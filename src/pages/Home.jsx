@@ -4,6 +4,8 @@ import { useTheme } from '../contexts/ThemeContext';
 import projectsData from '../data/projects.js';
 import socialsData from '../data/socials.js';
 import ThreeDScene from './ThreeDScene';
+import Navbar from '../components/Navbar';
+import SocialsBar from '../components/SocialsBar';
 
 function Home() {
   const [selectedTag, setSelectedTag] = useState('All');
@@ -55,23 +57,10 @@ function Home() {
       );
 
   return (
-    <div className="bg-lightBG dark:bg-midnight dark:hover:shadow-pink hover:shadow-blueLIGHT transition-colors duration-500 min-h-screen">
-      {/* Dark/Light mode toggle button */}
-      <button
-        className="fixed top-4 right-4 z-[9999] px-4 py-2 rounded-full bg-blueLIGHT text-midnight dark:bg-pink dark:text-white2 shadow-lg font-bold transition-all duration-300 hover:scale-110 hover:italic hover:text-lg hover:shadow-blueLIGHT dark:hover:shadow-pink"
-        onClick={toggleDarkMode}
-        aria-label="Toggle dark mode"
-      >
-        <span className="sm:hidden">
-          <img src={darkMode ? './images/Dark.webp' : './images/Light.webp'} alt={darkMode ? 'Dark mode' : 'Light mode'} className="w-6 h-6 object-contain" />
-        </span>
-        <span className="hidden sm:inline flex items-center gap-2">
-          <img src={darkMode ? './images/Dark.webp' : './images/Light.webp'} alt={darkMode ? 'Dark mode' : 'Light mode'} className="w-6 h-6 object-contain inline" />
-          {darkMode ? ' Dark' : ' Light'}
-        </span>
-      </button>
+    <div className="bg-lightBG dark:bg-midnight transition-colors duration-500 min-h-screen">
+      <Navbar />
 
-      <div className="container mx-auto p-8 bg-lightBG dark:bg-midnight text-midnight dark:text-white2 pb-20 transition-colors duration-500">
+      <div className="container mx-auto p-8 pt-20 bg-lightBG dark:bg-midnight text-midnight dark:text-white2 pb-20 transition-colors duration-500">
         {/* <div className="grid grid-cols-2 gap-[1rem] w-[25rem] lg:h-[25rem] max-h-[15rem] ml-[-2.5rem] lg:gap-2 lg:mb-[-4.5rem] lg:ml-[-2rem] lg:w-[30rem] mb-[-3.5rem]"></div> */}        
         <div className='md:mb-[23rem] mb-[15rem] mt-[3rem] flex justify-center mr-[305px] md:mr-[66.6vw] lg:grid lg:grid-cols-2 lg:mr-[0px]'>
           <div className='ml-[2.5vw]'>
@@ -138,27 +127,8 @@ function Home() {
           </h2>
         </div>
         <div className="fixed bottom-0 left-0 w-full bg-lightBG dark:bg-midnight border-t border-pink z-50 transition-colors duration-500">
-          <div className="bg-pattern flex justify-evenly items-center py-4 z-50">
-            {featuredSocial.map((social) => (
-              <div
-                key={social.id}
-                className="cursor-pointer group w-10 h-10 hover:w-12 hover:h-12 transition-transform duration-200"
-                onClick={() => window.open(social.URL, '_blank')}
-              >
-                <img
-                  src={social.imageURL}
-                  alt={social.title}
-                  className="w-12 h-12 object-contain block group-hover:hidden not-focus:w-10 not-focus:h-10 duration-200"
-                />
-                <img
-                  src={social.imageURL.replace('IconB.', 'IconP.')}
-                  alt={social.title}
-                  className="w-10 h-10 object-contain hidden group-hover:block hover:w-12 hover:h-12 duration-200"
-                />
-              </div>
-          ))}
+          <SocialsBar />
         </div>
-      </div>
 
         <h1 className="text-5xl font-bold mb-[80px] mt-[80px] italic flex justify-center content-center text-midnight dark:text-white2 transition-colors duration-500">
           My Work

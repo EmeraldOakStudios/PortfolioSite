@@ -2,6 +2,8 @@ import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import projectsData from '../data/projects';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Navbar from '../components/Navbar';
+import SocialsBar from '../components/SocialsBar';
 
 const ThreeDScene = lazy(() => import('./ThreeDScene'));
 
@@ -74,27 +76,9 @@ const DetailsProject = () => {
   
 
   return (
+    <>
     <div className="bg-lightBG dark:bg-midnight transition-colors duration-500 min-h-screen">
-      {/* Dark/Light mode toggle button */}
-      <button
-        className="fixed top-4 right-4 z-[9999] px-4 py-2 rounded-full bg-blueLIGHT text-midnight dark:bg-pink dark:text-white2 shadow-lg font-bold transition-all duration-300 hover:scale-110"
-        onClick={toggleDarkMode}
-        aria-label="Toggle dark mode"
-      >
-        <span className="sm:hidden">
-          <img src={darkMode ? './images/Dark.webp' : './images/Light.webp'} alt={darkMode ? 'Dark mode' : 'Light mode'} className="w-6 h-6 object-contain" />
-        </span>
-        <span className="hidden sm:inline flex items-center gap-2">
-          <img src={darkMode ? './images/Dark.webp' : './images/Light.webp'} alt={darkMode ? 'Dark mode' : 'Light mode'} className="w-6 h-6 object-contain inline" />
-          {darkMode ? ' Dark' : ' Light'}
-        </span>
-      </button>
-
-      <button className='fixed w-[10rem] h-[4rem] border-[1px] text-blueLIGHT border-solid border-pink mx-[4vw] my-[2rem] bg-lightBG dark:bg-midnight rounded-full transition-colors duration-300' onClick={backToHome}>
-        <h1 className='z-50'>
-          Back To Home
-        </h1>
-      </button>
+      <Navbar showBack />
 
       {/* Overlay */}
       {overlayVisible && (
@@ -135,7 +119,7 @@ const DetailsProject = () => {
       </div>        
       )}
 
-      <div className="container mx-auto p-8 text-midnight dark:text-white2 transition-colors duration-300">
+      <div className="container mx-auto p-8 pb-20 text-midnight dark:text-white2 transition-colors duration-300">
         <h1 className="text-4xl text-blueLIGHT font-bold mt-[5rem] mb-8">{project?.title}</h1>
         <p>{project?.description}</p>
         
@@ -247,6 +231,8 @@ const DetailsProject = () => {
             </div>
         </div>
       </div>
+      <SocialsBar />
+    </>
   );
 };
 
