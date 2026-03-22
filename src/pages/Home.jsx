@@ -166,8 +166,8 @@ function Home() {
             <Link key={project.id} to={`/detailsproject/${project.id}`}>
               <div className='bg-pattern border-solid border-[1px] border-pink p-[10px] m-[10px] shadow-none hover:shadow-lg hover:shadow-pink hover:inset-shadow-lg hover:border-[4px] text-xl hover:italic hover:text-2xl transition-all duration-300'>
                 <h2 className="text-blueLIGHT font-semibold mb-4">{project.title}</h2>
-                <p className="text-sm mb-4 not-italic text-midnight dark:text-white2 transition-colors duration-300">{project.description}</p>
-                <img src={project.imageURL} alt={project.title} className="w-full min-h-32 max-h-48 object-cover mb-4" />
+                <p className="text-sm mb-4 not-italic text-midnight dark:text-white2 hover:text-base line-clamp-2 hover:line-clamp-none transition-colors duration-300">{project.description}</p>
+                <img src={project.imageURL} alt={project.title} className="w-full max-h-48 hover:max-h-full object-cover mb-4 transition-all duration-300" />
               </div>
             </Link>
           ))}
