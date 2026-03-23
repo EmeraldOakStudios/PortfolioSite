@@ -157,7 +157,7 @@ function Home() {
           })}
         </div>
         {(selectedTag !== 'All') && (
-          <div className="grid grid-cols-4 mb-12">
+          <div className="grid lg:grid-cols-4 md:grid-cols-4 sm:grid-cols-2 grid-cols-2 mb-12">
             {availableSubtags.map((subtag) => (
               <button
                 key={subtag}
