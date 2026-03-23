@@ -25,7 +25,7 @@ module.exports = {
       'pink': '#d615cd',
       'blueLIGHT': '#15d3d6',
       'midnight': '#030113',
-      'lightBG': '#f0ebf7', // Add this light background color
+      'lightBG': '#f6f2f7', // Add this light background color
       'metal': '#565584',
       'tahiti': '#3ab7bf',
       'silver': '#ecebff',

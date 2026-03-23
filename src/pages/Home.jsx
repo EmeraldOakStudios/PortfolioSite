@@ -133,41 +133,54 @@ function Home() {
         <h1 className="text-5xl font-bold mb-[80px] mt-[80px] italic flex justify-center content-center text-midnight dark:text-white2 transition-colors duration-500">
           My Work
         </h1>
-        <div className="mb-12 mt-12 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-8 ">
-          {/* <a className="text-3xl md:text-sm"> Filter By : </a> */}
-          {tags.map((tag) => (
-            <button
-              key={tag}
-              className={`m-2 w-full px-4 py-2 mb-2 rounded-full hover:mb-0 ${selectedTag === tag ? 'bg-lightBG dark:bg-midnight text-midnight dark:text-white2 border-[5px] border-blueLIGHT italic shadow-blueLIGHT shadow-lg font-bold hover:shadow-blueLIGHT hover:mb-[0.575rem]' : 'bg-blue-500 text-midnight dark:text-white2 border-[1px] border-pink hover:shadow-pink hover:mb-0'} lg:text-2xl lg:font-bold shadow-none text-xl hover:shadow-lg hover:inset-shadow-lg hover:border-[4px] hover:italic hover:text-2xl transition-all duration-300`}
-              onClick={() => {
-                setSelectedTag(tag);
-                setSelectedSubtags([]);
-              }}
-            >
-              {tag}
-            </button>
-          ))}
-            {(selectedTag !== 'All') && (
-              <>              
-                {availableSubtags.map((subtag) => (
-                  <button
-                    key={subtag}
-                    className={`mr-4 ml-[1rem] px-4 py-2 mb-2 rounded-full font-bold hover:shadow-lg hover:inset-shadow-lg hover:shadow-blueLIGHT hover:italic transition-all duration-300 ${selectedSubtags.includes(subtag) ? 'bg-pink text-white2 border-[1px] border-pink italic shadow-pink shadow-lg hover:shadow-pink' : 'bg-blueLIGHT text-midnight border-[1px] border-blueLIGHT'}`}
-                    onClick={() => toggleSubtag(subtag)}
-                  >
-                    {subtag}
-                  </button>
-                ))}
-              </>
-            )}
+        <div className="mb-4 mt-12 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-8">
+          {tags.map((tag) => {
+            const isVisible = selectedTag === 'All' || tag === 'All' || tag === selectedTag;
+            const isSelected = selectedTag === tag;
+            return (
+              <button
+                key={tag}
+                className={`m-2 w-full px-4 py-2 mb-2 rounded-full hover:mb-0 lg:text-2xl lg:font-bold shadow-none text-xl hover:shadow-lg hover:inset-shadow-lg hover:border-[4px] hover:italic hover:text-2xl transition-all duration-300
+                  ${isSelected
+                    ? 'bg-lightBG dark:bg-midnight text-midnight dark:text-white2 border-[5px] border-blueLIGHT italic shadow-blueLIGHT shadow-lg font-bold hover:shadow-blueLIGHT hover:mb-[0.575rem]'
+                    : 'bg-blue-500 text-midnight dark:text-white2 border-[1px] border-pink hover:shadow-pink hover:mb-0'
+                  }
+                  ${isVisible ? 'opacity-100' : 'opacity-25'}`}
+                onClick={() => {
+                  setSelectedTag(tag);
+                  setSelectedSubtags([]);
+                }}
+              >
+                {tag}
+              </button>
+            );
+          })}
         </div>
+        {(selectedTag !== 'All') && (
+          <div className="grid grid-cols-4 mb-12">
+            {availableSubtags.map((subtag) => (
+              <button
+                key={subtag}
+                className={`mr-4 ml-[1rem] mb-6 px-4 py-2 rounded-full font-bold hover:shadow-lg hover:inset-shadow-lg hover:shadow-blueLIGHT hover:italic transition-all duration-300 ${selectedSubtags.includes(subtag) ? 'bg-pink text-white2 border-[1px] border-pink italic shadow-pink shadow-lg hover:shadow-pink' : 'bg-blueLIGHT text-midnight border-[1px] border-blueLIGHT'}`}
+                onClick={() => toggleSubtag(subtag)}
+              >
+                {subtag}
+              </button>
+            ))}
+          </div>
+        )}
+        {selectedSubtags.length > 0 && (
+          <p className="mb-6 text-base italic text-midnight dark:text-white2 transition-colors duration-300">
+            Showing projects using <span className="font-bold text-pink">{selectedSubtags.join(' or ')}</span>:
+          </p>
+        )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project) => (
             <Link key={project.id} to={`/detailsproject/${project.id}`}>
-              <div className='bg-pattern border-solid border-[1px] border-pink p-[10px] m-[10px] shadow-none hover:shadow-lg hover:shadow-pink hover:inset-shadow-lg hover:border-[4px] text-xl hover:italic hover:text-2xl transition-all duration-300'>
+              <div className='group bg-pattern border-solid border-[1px] border-pink p-[10px] m-[10px] shadow-none hover:shadow-lg hover:shadow-pink hover:inset-shadow-lg hover:border-[4px] text-xl hover:italic hover:text-2xl transition-all duration-300'>
                 <h2 className="text-blueLIGHT font-semibold mb-4">{project.title}</h2>
-                <p className="text-sm mb-4 not-italic text-midnight dark:text-white2 hover:text-base line-clamp-2 hover:line-clamp-none transition-colors duration-300">{project.description}</p>
-                <img src={project.imageURL} alt={project.title} className="w-full max-h-48 hover:max-h-full object-cover mb-4 transition-all duration-300" />
+                <p className="text-sm mb-4 not-italic text-midnight dark:text-white2 group-hover:text-base line-clamp-2 group-hover:line-clamp-none transition-colors duration-300">{project.description}</p>
+                <img src={project.imageURL} alt={project.title} className="w-full max-h-48 group-hover:max-h-[800px] object-cover mb-4 transition-[max-height] duration-300 ease-in-out" />
               </div>
             </Link>
           ))}
