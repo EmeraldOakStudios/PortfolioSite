@@ -14,6 +14,7 @@ function Home() {
   const [animSpeed, setAnimSpeed] = useState(1.15);
   const [featuredSocial, setFeaturedSocial] = useState([]);
   const [featuredProject, setFeaturedProject] = useState(null);
+  const [gifKey, setGifKey] = useState(0);
   const { darkMode, toggleDarkMode } = useTheme(); // Use theme context
 
   useEffect(() => {
@@ -170,17 +171,37 @@ function Home() {
           </div>
         )}
         {selectedSubtags.length > 0 && (
-          <p className="mb-6 text-base italic text-midnight dark:text-white2 transition-colors duration-300">
-            Showing projects using <span className="font-bold text-pink">{selectedSubtags.join(' or ')}</span>:
+          <p className="mb-6 ml-[1rem] text-base italic text-midnight dark:text-white2 transition-colors duration-300">
+            Showing <span className="font-bold text-blueLIGHT">{selectedTag}</span> projects using <span className="font-bold text-pink">{selectedSubtags.join(' or ')}</span>:
           </p>
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project) => (
-            <Link key={project.id} to={`/detailsproject/${project.id}`}>
-              <div className='group bg-pattern border-solid border-[1px] border-pink p-[10px] m-[10px] shadow-none hover:shadow-lg hover:shadow-pink hover:inset-shadow-lg hover:border-[4px] text-xl hover:italic hover:text-2xl transition-all duration-300'>
-                <h2 className="text-blueLIGHT font-semibold mb-4">{project.title}</h2>
-                <p className="text-sm mb-4 not-italic text-midnight dark:text-white2 group-hover:text-base line-clamp-2 group-hover:line-clamp-none transition-colors duration-300">{project.description}</p>
-                <img src={project.imageURL} alt={project.title} className="w-full max-h-48 group-hover:max-h-[800px] object-cover mb-4 transition-[max-height] duration-300 ease-in-out" />
+            <Link key={project.id} to={`/detailsproject/${project.id}`} className="block relative"
+              onMouseEnter={() => project.imageURL.endsWith('.gif') && setGifKey(k => k + 1)}>
+              {/* Invisible spacer — maintains grid row height at collapsed size */}
+              <div className="invisible pointer-events-none p-[10px] m-[10px]" aria-hidden="true">
+                <h2 className="font-semibold mb-4">{project.title}</h2>
+                <p className="text-sm mb-4 line-clamp-2">{project.description}</p>
+                <img src={project.imageURL} alt="" className="w-full max-h-48 object-cover mb-4" />
+              </div>
+              {/* Actual card — absolutely positioned so expansion overlaps rows below */}
+              <div className='group absolute top-0 left-0 right-0 bg-lightBG dark:bg-midnight overflow-hidden border-solid border-[1px] border-pink p-[10px] m-[10px] shadow-none hover:shadow-lg hover:shadow-pink hover:inset-shadow-lg hover:border-[4px] hover:z-20 text-xl hover:italic hover:text-2xl transition-all duration-300'>
+                {/* Pattern overlay */}
+                <div className="absolute inset-0 bg-repeat pointer-events-none opacity-15" style={{backgroundImage: "url('/images/pattern.svg')", backgroundSize: '48px 48px'}} />
+                {/* Content */}
+                <div className="relative">
+                  <h2 className="text-blueLIGHT font-semibold mb-4">{project.title}</h2>
+                  <p className="text-sm mb-4 not-italic text-midnight dark:text-white2 group-hover:text-base line-clamp-2 group-hover:line-clamp-none transition-colors duration-300">{project.description}</p>
+                  {project.imageURL.endsWith('.gif') ? (
+                    <div className="relative w-full max-h-48 group-hover:max-h-[800px] mb-4 transition-[max-height] duration-300 ease-in-out overflow-hidden">
+                      <img src={project.contentURL[0]} alt={project.title} className="w-full h-full object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-300" />
+                      <img key={gifKey} src={project.imageURL} alt={project.title} className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </div>
+                  ) : (
+                    <img src={project.imageURL} alt={project.title} className="w-full max-h-48 group-hover:max-h-[800px] object-cover mb-4 transition-[max-height] duration-300 ease-in-out" />
+                  )}
+                </div>
               </div>
             </Link>
           ))}

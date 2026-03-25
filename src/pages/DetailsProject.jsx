@@ -78,7 +78,7 @@ const DetailsProject = () => {
   return (
     <>
     <div className="bg-lightBG dark:bg-midnight transition-colors duration-500 min-h-screen">
-      <Navbar showBack />
+      <Navbar showBack onClose={overlayVisible ? closeOverlay : null} />
 
       {/* Overlay */}
       {overlayVisible && (
@@ -91,14 +91,7 @@ const DetailsProject = () => {
               className="max-h-[95vh] w-fit max-w-[95vw]"
             />
           </div>
-          <button 
-            className='absolute top-0 right-0 m-4 w-[6rem] h-[4rem] border-[1px] text-blueLIGHT border-solid border-pink mx-[4vw] my-[2rem] bg-lightBG dark:bg-midnight rounded-full transition-colors duration-300 hover:shadow-lg hover:shadow-pink hover:inset-shadow-lg hover:border-[4px]' 
-            onClick={closeOverlay}
-          >
-            <h1 className='z-40 '>
-              Close
-            </h1>
-          </button>
+
           <button 
             className='absolute top-[88vh] sm:top-[50vh] right-0 m-4 w-[6rem] bg-opacity-60 h-[4rem] border-[1px] text-blueLIGHT border-solid border-pink mx-[4vw] my-[2rem] bg-lightBG dark:bg-midnight rounded-full transition-colors duration-300 hover:shadow-lg hover:shadow-pink hover:inset-shadow-lg hover:border-[4px]' 
             onClick={() => navigateImage(1)}
@@ -120,42 +113,64 @@ const DetailsProject = () => {
       )}
 
       <div className="container mx-auto p-8 pb-20 text-midnight dark:text-white2 transition-colors duration-300">
-        <h1 className="text-4xl text-blueLIGHT font-bold mt-[5rem] mb-8">{project?.title}</h1>
-        <p>{project?.description}</p>
-        
-        {project.videoURL ? (
-        <iframe 
-          width="560"
-          height="315"
-          src={project.videoURL}
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          className="lg:w-full lg:h-[40rem] w-full h-[12rem] my-4"
-          />
-        ) : (
-          <img src={project.imageURL} alt={project.title} className="lg:w-6/12 h-6/12 w-full h-4/12 my-4" />
-        )}
-        <div className='flex flex-wrap gap-8 my-[2rem]'>
-            <h2 className='text-xl'>Tools used:</h2>
-            {project?.subTags.map((tools, index) => (
-            <div key={index}>
-              <h3 className='text-xl font-bold text-blueLIGHT'>
-                {tools}
-              </h3>
+        <div className="flex flex-col lg:flex-row gap-8 mt-[5rem] mb-8 w-full">
+          <div className="lg:w-2/5 flex flex-col">
+            <h1 className="text-4xl text-blueLIGHT font-bold mb-8">{project?.title}</h1>
+            <p>{project?.description}</p>            
+            <div className='flex flex-wrap gap-8 my-[2rem] hidden sm:h-auto lg:flex md:hidden md:h-auto'>
+              <h2 className='text-xl hidden sm:h-auto lg:flex md:hidden md:h-auto'>Tools used:</h2>
+              {project?.subTags.map((tools, index) => (
+              <div key={index}>
+                <h3 className='text-xl font-bold text-blueLIGHT hidden sm:h-auto lg:flex md:hidden md:h-auto'>
+                  {tools}
+                </h3>
+              </div>
+              ))}
             </div>
+          </div>
+          <div className="lg:w-3/5 w-full">
+            {project.videoURL ? (
+              <iframe
+                src={project.videoURL}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="w-full h-[12rem] lg:h-[40rem]"
+              />
+            ) : (
+              <img src={project.imageURL} alt={project.title} className="w-full h-auto object-cover" />
+            )}
+          </div>
+        </div>
+        <div className='flex flex-wrap gap-8 my-[2rem] sm:visible sm:h-auto lg:hidden md:visible md:h-auto'>
+          <h2 className='text-xl sm:visible sm:h-auto lg:hidden md:visible md:h-auto'>Tools used:</h2>
+          {project?.subTags.map((tools, index) => (
+          <div key={index}>
+            <h3 className='text-xl font-bold text-blueLIGHT sm:visible sm:h-auto lg:hidden md:visible md:h-auto'>
+              {tools}
+            </h3>
+          </div>
           ))}
         </div>
         <div className="flex flex-wrap gap-8">
           {project.contentURL.map((content, index) => (
-            <img
-              key={index}
-              src={content}
-              alt={`Project ${index + 2}`}
-              className="my-4 flex-auto object-cover sm:h-full w-fit lg:min-h-[50%] md:max-h-[12rem] lg:max-h-[17rem] xl:max-h-[22rem] 2xl:max-h-[27rem]"
-              onClick={() => openOverlay(content)}
-            />
+            <div key={index} className="relative my-4 flex-auto w-fit lg:min-h-[50%] md:max-h-[12rem] lg:max-h-[17rem] xl:max-h-[22rem] 2xl:max-h-[27rem]">
+              {/* Invisible spacer — holds flex row height without disturbing neighbours */}
+              <img
+                src={content}
+                alt=""
+                aria-hidden="true"
+                className="invisible w-full h-full object-cover md:max-h-[12rem] lg:max-h-[17rem] xl:max-h-[22rem] 2xl:max-h-[27rem]"
+              />
+              {/* Actual image — absolutely positioned, expands to natural ratio on hover */}
+              <img
+                src={content}
+                alt={`Project ${index + 2}`}
+                className="absolute top-0 left-0 w-full object-cover md:max-h-[12rem] lg:max-h-[17rem] xl:max-h-[22rem] 2xl:max-h-[27rem] hover:max-h-[80vh] hover:z-20 hover:shadow-lg hover:shadow-pink hover:border-pink hover:border-[4px] transition-[max-height] duration-300 ease-in-out cursor-pointer"
+                onClick={() => openOverlay(content)}
+              />
+            </div>
           ))}
         </div>
         {project.credits && project.creditCategory && project.creditSource ? (

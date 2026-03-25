@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import DarkModeToggle from './DarkModeToggle';
 
-function Navbar({ showBack = false }) {
+function Navbar({ showBack = false, onClose = null }) {
   const navigate = useNavigate();
 
   return (
@@ -17,7 +17,15 @@ function Navbar({ showBack = false }) {
           </button>
         )}
       </div>
-      <div className="pointer-events-auto">
+      <div className="pointer-events-auto flex items-center gap-2">
+        {onClose && (
+          <button
+            className="w-[6rem] h-[2.75rem] border-[1px] text-blueLIGHT border-solid border-pink bg-lightBG dark:bg-midnight rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-pink hover:border-[3px] hover:italic"
+            onClick={onClose}
+          >
+            Close
+          </button>
+        )}
         <DarkModeToggle />
       </div>
     </nav>

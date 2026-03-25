@@ -3,9 +3,9 @@ const projects = [
     id: 4,
     title: 'Emerald Oak Studios',
     description: 'My Web Dev company`s website. Made with WordPress and animations made with Blender. Geometry garden models made by Ryan Singh.',
-    imageURL: 'https://cdna.artstation.com/p/assets/images/images/096/762/356/original/darragh-nolan-eossitegif.gif?1772227677',
+    imageURL: 'https://cdna.artstation.com/p/assets/images/images/096/762/356/original/darragh-nolan-eossitegif.gif',
     contentURL: [
-      'https://cdna.artstation.com/p/assets/images/images/096/762/356/original/darragh-nolan-eossitegif.gif?1772227677',
+      'https://cdna.artstation.com/p/assets/images/images/097/503/886/large/darragh-nolan-darragh-nolan-eossitegif.webp',
       'https://cdnb.artstation.com/p/assets/images/images/097/130/267/original/darragh-nolan-eossiteteamgifmobile.gif?1773261035',
       'https://cdna.artstation.com/p/assets/images/images/097/130/288/original/darragh-nolan-eossiteworkgifmobile.gif?1773261121',
       'https://cdnb.artstation.com/p/assets/images/images/096/762/571/original/darragh-nolan-eossitegifmobile.gif?1772228337',
