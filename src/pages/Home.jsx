@@ -206,6 +206,7 @@ function Home() {
             </Link>
           ))}
         </div>
+        <div className="m-[30vh]"></div>
       </div>
     </div>
   );

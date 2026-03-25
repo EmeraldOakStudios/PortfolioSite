@@ -244,8 +244,10 @@ const DetailsProject = () => {
                   <div></div>
                 )}
             </div>
-        </div>
+            
+        <div className="m-[30vh]"></div>
       </div>
+    </div>
       <SocialsBar />
     </>
   );
