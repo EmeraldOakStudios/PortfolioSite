@@ -188,7 +188,7 @@ function Home() {
               {/* Actual card — absolutely positioned so expansion overlaps rows below */}
               <div className='group absolute top-0 left-0 right-0 bg-lightBG dark:bg-midnight overflow-hidden border-solid border-[1px] border-pink p-[10px] m-[10px] shadow-none hover:shadow-lg hover:shadow-pink hover:inset-shadow-lg hover:border-[4px] hover:z-20 text-xl hover:italic hover:text-2xl transition-all duration-300'>
                 {/* Pattern overlay */}
-                <div className="absolute inset-0 bg-repeat pointer-events-none opacity-15" style={{backgroundImage: "url('/images/pattern.svg')", backgroundSize: '48px 48px'}} />
+                <div className="absolute inset-0 bg-repeat pointer-events-none opacity-15" style={{backgroundImage: "url('/images/pattern.webp')", backgroundSize: '48px 48px'}} />
                 {/* Content */}
                 <div className="relative">
                   <h2 className="text-blueLIGHT font-semibold mb-4">{project.title}</h2>
