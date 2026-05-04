@@ -27,12 +27,12 @@ function Home() {
       {/* FPS Room Scene - Replace with your room model path */}
       <ThreeDScene 
         mode="fps"
-        url="/models/Squirtle2.glb" // Temporary - replace with your room model
-        roomBounds={{ minX: -3, maxX: 3, minZ: -6, maxZ: 6 }} // 4m x 8m room
+        url="/models/TestRoom.glb" // Temporary - replace with your room model
+        roomBounds={{ minX: -2, maxX: 2.25, minZ: -2, maxZ: 1 }} // 4m x 8m room
         showBounds={true} // Set to false once you have your room model
         movementSpeed={4}
         lookSpeed={0.002}
-        eyeHeight={1.67}
+        eyeHeight={1.33}
       />
     </div>
   );
