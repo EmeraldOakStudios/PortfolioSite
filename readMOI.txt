@@ -1,0 +1,54 @@
+Optimizing tool selection...I’ll quickly scan the key files so I can give you an accurate, up-to-date overview of the app and exactly how the 3D navigation works right now.
+
+Read [](file:///c%3A/Users/darra/OneDrive/Documents/OutsideProjects/PortfolioSite/src/App.js)
+
+Read [](file:///c%3A/Users/darra/OneDrive/Documents/OutsideProjects/PortfolioSite/src/pages/Home.jsx)
+
+Read [](file:///c%3A/Users/darra/OneDrive/Documents/OutsideProjects/PortfolioSite/src/components/FPSControls.jsx)
+
+Read [](file:///c%3A/Users/darra/OneDrive/Documents/OutsideProjects/PortfolioSite/src/components/CollisionSystem.jsx)
+
+Read [](file:///c%3A/Users/darra/OneDrive/Documents/OutsideProjects/PortfolioSite/src/pages/DetailsProject.jsx)
+
+Here’s the current project overview based on what’s in your workspace now.
+
+**What This Project Is**
+- It is a React portfolio site with routing between a home experience and per-project detail pages.
+- Routing is defined in App.js:
+1. `/` renders Home
+2. `/detailsproject/:id` renders project details lazily
+- Home is currently being used as a full-screen 3D first-person scene in Home.jsx.
+- Project details in DetailsProject.jsx still support your older 3D model viewer workflow (orbit-style inspection of models with per-model transforms/material maps).
+
+**3D System Structure**
+- Main 3D scene wrapper: ThreeDScene.jsx
+- FPS movement + mouse look logic: FPSControls.jsx
+- Room boundary visualizer/debug wall boxes: CollisionSystem.jsx
+
+**How 3D Navigation Currently Works**
+1. Home mounts `ThreeDScene` in `mode="fps"` with:
+2. A GLB model URL (`/models/Squirtle2.glb` placeholder right now)
+3. Room bounds (`minX/maxX/minZ/maxZ`) for movement clamping
+4. Movement/look speed and eye-height settings
+5. In FPS mode, camera is configured with a wider FOV and starts at human eye level (`1.67`).
+6. Clicking the canvas requests Pointer Lock, so mouse movement drives camera yaw/pitch.
+7. Keyboard input uses WASD + arrow keys.
+8. Each frame, movement vector is built from camera forward/right directions and scaled by delta time.
+9. Position is clamped against room bounds, so the camera cannot leave the allowed rectangle.
+10. Camera Y is locked to eye height, so no jump/fly movement yet.
+
+**Important Current Behavior Notes**
+- Collision is currently axis-aligned boundary clamping, not mesh-based collision with walls/furniture. It is simple and reliable for a rectangular room.
+- `showBounds={true}` in Home means debug wall/floor boxes are visible via CollisionSystem.jsx.
+- In FPSControls.jsx, strafing appears inverted right now:
+1. `A / ArrowLeft` sets `right = true`
+2. `D / ArrowRight` sets `left = true`
+- So movement works, but left/right keys are swapped.
+
+**How To Think About The Current State**
+- You effectively have two 3D modes inside one scene component:
+1. FPS room exploration mode for Home
+2. Orbit-based model showcase mode for project detail pages
+- This is a good foundation: you can continue building interactions on top of FPS mode without breaking the existing portfolio model-viewer flow.
+
+If you want, next I can give you a short “current state checklist” for what to change first before adding interactions (in order: fix strafe mapping, swap placeholder room model, hide debug bounds, add interaction raycast manager).
