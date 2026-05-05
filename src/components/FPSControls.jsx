@@ -2,95 +2,62 @@ import React, { useRef, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
-function FPSControls({ 
-  movementSpeed = 5, 
-  lookSpeed = 0.002, 
+// Rail-based controls: scroll moves camera along X axis, mouse look rotates freely.
+function FPSControls({
+  lookSpeed = 0.002,
   eyeHeight = 1.67,
-  roomBounds = { minX: -2, maxX: 2, minZ: -4, maxZ: 4 } // 4m x 8m room centered at origin
+  railMin = -10,     // minimum X position along the rail
+  railMax = 10,      // maximum X position along the rail
+  scrollSpeed = 0.02, // units moved per scroll delta unit
+  modalOpen = false   // disable scroll when modal is open
 }) {
   const { camera, gl } = useThree();
-  
-  // Movement state
-  const keys = useRef({
-    forward: false,
-    backward: false,
-    left: false,
-    right: false
-  });
-  
+
+  // Target X position on the rail (updated by scroll)
+  const targetX = useRef(0);
+  const modalOpenRef = useRef(modalOpen);
+
   // Mouse look state
   const euler = useRef(new THREE.Euler(0, 0, 0, 'YXZ'));
   const pointerLocked = useRef(false);
 
-  // Initialize camera position and controls
   useEffect(() => {
-    // Set initial camera position (center of room at eye height)
-    camera.position.set(0, eyeHeight, 0);
+    modalOpenRef.current = modalOpen;
+  }, [modalOpen]);
+
+  useEffect(() => {
+    // Place camera at rail start, eye height, facing forward along Z
+    camera.position.set(targetX.current, eyeHeight, 0);
     camera.rotation.order = 'YXZ';
-
     camera.rotation.set(0, 0, 0);
-    
-    // Keyboard event handlers
-    const handleKeyDown = (event) => {
-      switch (event.code) {
-        case 'KeyW':
-        case 'ArrowUp':
-          keys.current.forward = true;
-          break;
-        case 'KeyS':
-        case 'ArrowDown':
-          keys.current.backward = true;
-          break;
-        case 'KeyA':
-        case 'ArrowLeft':
-          keys.current.right = true;
-          break;
-        case 'KeyD':
-        case 'ArrowRight':
-          keys.current.left = true;
-          break;
-      }
+    euler.current.set(0, 0, 0);
+
+    // Scroll drives movement along the X rail
+    const handleWheel = (event) => {
+      if (modalOpenRef.current) return; // Don't scroll if modal is open
+      event.preventDefault();
+      targetX.current = Math.max(
+        railMin,
+        Math.min(railMax, targetX.current + event.deltaY * scrollSpeed)
+      );
     };
 
-    const handleKeyUp = (event) => {
-      switch (event.code) {
-        case 'KeyW':
-        case 'ArrowUp':
-          keys.current.forward = false;
-          break;
-        case 'KeyS':
-        case 'ArrowDown':
-          keys.current.backward = false;
-          break;
-        case 'KeyA':
-        case 'ArrowLeft':
-          keys.current.right = false;
-          break;
-        case 'KeyD':
-        case 'ArrowRight':
-          keys.current.left = false;
-          break;
-      }
-    };
-
-    // Mouse look handlers
+    // Mouse look (only active when pointer is locked)
     const handleMouseMove = (event) => {
       if (!pointerLocked.current) return;
 
-      const movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
-      const movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+      const movementX = event.movementX || 0;
+      const movementY = event.movementY || 0;
 
       euler.current.setFromQuaternion(camera.quaternion);
       euler.current.y -= movementX * lookSpeed;
       euler.current.x -= movementY * lookSpeed;
-      
-      // Limit vertical look (prevent looking too far up/down)
-      euler.current.x = Math.max(-Math.PI/2, Math.min(Math.PI/2, euler.current.x));
-      
+      euler.current.x = Math.max(-Math.PI / 2.5, Math.min(Math.PI / 2.5, euler.current.x));
+
       camera.quaternion.setFromEuler(euler.current);
     };
 
-    // Pointer lock handlers
+    // Click canvas to lock pointer for mouse look
     const handleClick = () => {
       if (!pointerLocked.current) {
         gl.domElement.requestPointerLock();
@@ -98,79 +65,31 @@ function FPSControls({
     };
 
     const handlePointerLockChange = () => {
-      if (document.pointerLockElement === gl.domElement) {
-        pointerLocked.current = true;
-      } else {
-        pointerLocked.current = false;
-      }
+      pointerLocked.current = document.pointerLockElement === gl.domElement;
     };
 
-    // Add event listeners
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('keyup', handleKeyUp);
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('pointerlockchange', handlePointerLockChange);
     gl.domElement.addEventListener('click', handleClick);
+    // Use the canvas element for wheel so it only fires when over the 3D view
+    gl.domElement.addEventListener('wheel', handleWheel, { passive: false });
 
-    // Cleanup
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('keyup', handleKeyUp);
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('pointerlockchange', handlePointerLockChange);
       gl.domElement.removeEventListener('click', handleClick);
+      gl.domElement.removeEventListener('wheel', handleWheel);
     };
-  }, [camera, gl, lookSpeed, eyeHeight]);
+  }, [camera, gl, lookSpeed, eyeHeight, railMin, railMax, scrollSpeed]);
 
-  // Movement and collision detection
-  useFrame((state, delta) => {
-    if (!pointerLocked.current) return;
-
-    const velocity = new THREE.Vector3();
-    const direction = new THREE.Vector3();
-
-    // Calculate movement direction based on camera orientation
-    camera.getWorldDirection(direction);
-    
-    // Get right vector for strafe movement
-    const right = new THREE.Vector3();
-    right.crossVectors(camera.up, direction).normalize();
-
-    // Apply movement based on pressed keys
-    if (keys.current.forward) {
-      velocity.add(direction);
-    }
-    if (keys.current.backward) {
-      velocity.sub(direction);
-    }
-    if (keys.current.right) {
-      velocity.add(right);
-    }
-    if (keys.current.left) {
-      velocity.sub(right);
-    }
-
-    // Normalize and apply speed
-    if (velocity.length() > 0) {
-      velocity.normalize();
-      velocity.multiplyScalar(movementSpeed * delta);
-      
-      // Calculate new position
-      const newPosition = camera.position.clone().add(velocity);
-      
-      // Apply collision detection (keep within room bounds)
-      newPosition.x = Math.max(roomBounds.minX, Math.min(roomBounds.maxX, newPosition.x));
-      newPosition.z = Math.max(roomBounds.minZ, Math.min(roomBounds.maxZ, newPosition.z));
-      
-      // Keep camera at eye height (no vertical movement for now)
-      newPosition.y = eyeHeight;
-      
-      // Apply the bounded position
-      camera.position.copy(newPosition);
-    }
+  // Each frame: smoothly lerp camera to target X, lock Z and Y
+  useFrame(() => {
+    camera.position.x = THREE.MathUtils.lerp(camera.position.x, targetX.current, 0.1);
+    camera.position.y = eyeHeight;
+    camera.position.z = 0;
   });
 
-  return null; // This component doesn't render anything
+  return null;
 }
 
 export default FPSControls;

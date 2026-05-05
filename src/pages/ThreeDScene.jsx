@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { useGLTF, OrbitControls } from '@react-three/drei';
 import { AnimationMixer, Clock, Color, TextureLoader } from 'three';
 import FPSControls from '../components/FPSControls';
-import CollisionSystem from '../components/CollisionSystem';
+import WallPanel from '../components/WallPanel';
 
 function ThreeDScene({ 
   // Existing props for model viewer mode
@@ -13,11 +13,15 @@ function ThreeDScene({
   
   // New props for FPS room mode
   mode = "viewer", // "viewer" or "fps"
-  roomBounds = { minX: -2, maxX: 2, minZ: -4, maxZ: 4 }, // 4m x 8m room
-  showBounds = false, // Debug: show collision boundaries
-  movementSpeed = 5,
+  railMin = -10,   // minimum Z camera position on the rail
+  railMax = 10,    // maximum Z camera position on the rail
+  scrollSpeed = 0.0001,
   lookSpeed = 0.002,
-  eyeHeight = 1.67
+  eyeHeight = 1.67,
+  
+  // Modal props
+  modalOpen = false,
+  onPanelClick = () => {}
 }) {
 
   // console.log('URL:', url); // Add this line to log the URL
@@ -125,15 +129,20 @@ function ThreeDScene({
         
         {mode === "fps" && (
           <>
-            <FPSControls 
-              movementSpeed={movementSpeed}
+            <FPSControls
               lookSpeed={lookSpeed}
               eyeHeight={eyeHeight}
-              roomBounds={roomBounds}
+              railMin={railMin}
+              railMax={railMax}
+              scrollSpeed={scrollSpeed}
+              modalOpen={modalOpen}
             />
-            <CollisionSystem 
-              roomBounds={roomBounds}
-              showBounds={showBounds}
+            <WallPanel 
+              position={[-2.25, 1.5, -1.25]} 
+              rotation={[0, Math.PI / 2, 0]} 
+              title="Welcome"
+              body="Click on this panel to see it full screen!"
+              onPanelClick={onPanelClick}
             />
           </>
         )}
