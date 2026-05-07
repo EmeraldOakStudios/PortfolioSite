@@ -25,7 +25,7 @@ export const rooms = [
       }
     ],
     navPanel: {
-      position: [2.25, 1.5, 0],
+      position: [3.25, 1.5, 0],
       rotation: [0, -Math.PI / 2, 0],
       label: 'Room 2 \u2192',
       nextRoute: '/room/2'
@@ -33,14 +33,14 @@ export const rooms = [
   },
   {
     id: 2,
-    glb: '/models/TestRoom.glb',
+    glb: '/models/TestRoom2.glb',
     railMin: -2,
     railMax: 1,
     scrollSpeed: 0.005,
     eyeHeight: 1.67,
     panels: [],
     navPanel: {
-      position: [2.25, 1.5, 0],
+      position: [3.25, 1.5, 0],
       rotation: [0, -Math.PI / 2, 0],
       label: '\u2190 Room 1',
       nextRoute: '/'

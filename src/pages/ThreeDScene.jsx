@@ -4,6 +4,7 @@ import { useGLTF, OrbitControls } from '@react-three/drei';
 import { AnimationMixer, Clock, Color, TextureLoader } from 'three';
 import FPSControls from '../components/FPSControls';
 import WallPanel from '../components/WallPanel';
+import NavPanel from '../components/NavPanel';
 
 function ThreeDScene({ 
   // Existing props for model viewer mode
@@ -21,7 +22,12 @@ function ThreeDScene({
   
   // Modal props
   modalOpen = false,
-  onPanelClick = () => {}
+  onPanelClick = () => {},
+
+  // Room content
+  panels = [],
+  navPanel = null,
+  onNavigate = () => {}
 }) {
 
   // console.log('URL:', url); // Add this line to log the URL
@@ -137,14 +143,30 @@ function ThreeDScene({
               scrollSpeed={scrollSpeed}
               modalOpen={modalOpen}
             />
-            <WallPanel 
-              position={[-2.25, 1.5, -1.25]} 
-              rotation={[0, Math.PI / 2, 0]} 
-              title="Welcome"
-              body="Click on this panel to see it full screen!"
-              modalOpen={modalOpen}
-              onPanelClick={onPanelClick}
-            />
+            {panels.map((p) => (
+              <WallPanel
+                key={p.id}
+                position={p.position}
+                rotation={p.rotation}
+                image={p.image}
+                title={p.title}
+                caption={p.caption}
+                description={p.description}
+                videoUrl={p.videoUrl}
+                links={p.links}
+                modalOpen={modalOpen}
+                onPanelClick={onPanelClick}
+              />
+            ))}
+            {navPanel && (
+              <NavPanel
+                position={navPanel.position}
+                rotation={navPanel.rotation}
+                label={navPanel.label}
+                modalOpen={modalOpen}
+                onNavigate={() => onNavigate(navPanel.nextRoute)}
+              />
+            )}
           </>
         )}
       </Suspense>

@@ -2,13 +2,23 @@ import React, { Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 const DetailsProject = React.lazy(() => import('./pages/DetailsProject'));
+const RoomPage = React.lazy(() => import('./pages/RoomPage'));
 
 function App() {
   return (
     <div className="App">      
       <BrowserRouter>
         <Routes>
-          <Route path="/*" element={<Home />} />
+          <Route path="/" element={<Home />} />
+
+          <Route
+            path="/room/:id"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <RoomPage />
+              </Suspense>
+            }
+          />
           
           {/* Wrap lazy-loaded component with Suspense */}
           <Route
