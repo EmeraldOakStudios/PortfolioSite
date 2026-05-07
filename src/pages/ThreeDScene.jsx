@@ -142,6 +142,7 @@ function ThreeDScene({
               rotation={[0, Math.PI / 2, 0]} 
               title="Welcome"
               body="Click on this panel to see it full screen!"
+              modalOpen={modalOpen}
               onPanelClick={onPanelClick}
             />
           </>

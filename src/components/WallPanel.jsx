@@ -9,6 +9,7 @@ function WallPanel({
   rotation = [0, 0, 0],
   title = 'Panel Title',
   body = 'Look at me to read\nthis content.',
+  modalOpen = false,
   onPanelClick = () => {} // Callback when panel is clicked
 }) {
   const meshRef = useRef();
@@ -34,6 +35,9 @@ function WallPanel({
 
   // Handle click on the panel
   const handleCanvasClick = () => {
+    if (modalOpen) return;
+    if (document.pointerLockElement !== gl.domElement) return;
+
     raycaster.current.setFromCamera(centerScreen, camera);
     const hit = raycaster.current.intersectObject(meshRef.current).length > 0;
     if (hit) {
@@ -46,7 +50,7 @@ function WallPanel({
     return () => {
       gl.domElement.removeEventListener('click', handleCanvasClick);
     };
-  }, [gl, onPanelClick, title, body]);
+  }, [gl, onPanelClick, title, body, modalOpen]);
 
   return (
     <group position={position} rotation={rotation}>

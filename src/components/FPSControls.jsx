@@ -44,6 +44,7 @@ function FPSControls({
 
     // Mouse look (only active when pointer is locked)
     const handleMouseMove = (event) => {
+      if (modalOpenRef.current) return;
       if (!pointerLocked.current) return;
 
       const movementX = event.movementX || 0;
@@ -59,17 +60,28 @@ function FPSControls({
 
     // Click canvas to lock pointer for mouse look
     const handleClick = () => {
+      if (modalOpenRef.current) return;
       if (!pointerLocked.current) {
         gl.domElement.requestPointerLock();
       }
     };
 
     const handlePointerLockChange = () => {
+      if (modalOpenRef.current && document.pointerLockElement === gl.domElement) {
+        document.exitPointerLock();
+        pointerLocked.current = false;
+        return;
+      }
       pointerLocked.current = document.pointerLockElement === gl.domElement;
+    };
+
+    const handleWindowBlur = () => {
+      pointerLocked.current = false;
     };
 
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('pointerlockchange', handlePointerLockChange);
+    window.addEventListener('blur', handleWindowBlur);
     gl.domElement.addEventListener('click', handleClick);
     // Use the canvas element for wheel so it only fires when over the 3D view
     gl.domElement.addEventListener('wheel', handleWheel, { passive: false });
@@ -77,6 +89,7 @@ function FPSControls({
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('pointerlockchange', handlePointerLockChange);
+      window.removeEventListener('blur', handleWindowBlur);
       gl.domElement.removeEventListener('click', handleClick);
       gl.domElement.removeEventListener('wheel', handleWheel);
     };
