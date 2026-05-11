@@ -28,6 +28,7 @@ export const rooms = [
       position: [3.25, 1.5, 0],
       rotation: [0, -Math.PI / 2, 0],
       label: 'Room 2 \u2192',
+      nextRoomId: 2,
       nextRoute: '/room/2'
     }
   },
@@ -42,8 +43,25 @@ export const rooms = [
     navPanel: {
       position: [3.25, 1.5, 0],
       rotation: [0, -Math.PI / 2, 0],
-      label: '\u2190 Room 1',
-      nextRoute: '/'
+      label: 'Room 3 \u2192',
+      nextRoomId: 3,
+      nextRoute: '/room/3'
+    }
+  },
+  {
+    id: 3,
+    glb: '/models/TestRoom2.glb',
+    railMin: -2,
+    railMax: 1,
+    scrollSpeed: 0.005,
+    eyeHeight: 1.67,
+    panels: [],
+    navPanel: {
+      position: [3.25, 1.5, 0],
+      rotation: [0, -Math.PI / 2, 0],
+      label: 'Room 1 \u2192',
+      nextRoomId: 1,
+      nextRoute: '/room/1'
     }
   }
 ];

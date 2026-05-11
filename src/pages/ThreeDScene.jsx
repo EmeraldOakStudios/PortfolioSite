@@ -1,7 +1,7 @@
-import React, { useRef, useEffect, Suspense, useState } from 'react';
+import React, { useRef, useEffect, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useGLTF, OrbitControls } from '@react-three/drei';
-import { AnimationMixer, Clock, Color, TextureLoader } from 'three';
+import { AnimationMixer, Clock, TextureLoader } from 'three';
 import FPSControls from '../components/FPSControls';
 import WallPanel from '../components/WallPanel';
 import NavPanel from '../components/NavPanel';
@@ -164,7 +164,7 @@ function ThreeDScene({
                 rotation={navPanel.rotation}
                 label={navPanel.label}
                 modalOpen={modalOpen}
-                onNavigate={() => onNavigate(navPanel.nextRoute)}
+                onNavigate={() => onNavigate(navPanel)}
               />
             )}
           </>

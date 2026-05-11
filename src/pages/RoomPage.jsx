@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
 import ThreeDScene from './ThreeDScene';
 import { getRoomById } from '../data/rooms';
 
-function RoomPage({ roomId: propRoomId }) {
-  const { id: paramId } = useParams();
-  const navigate = useNavigate();
-
-  // Support both route param (/room/:id) and direct prop (from Home)
-  const room = getRoomById(propRoomId || paramId || 1);
+function RoomPage({
+  roomId = 1,
+  roomData = null,
+  onNavigateRoom = () => {},
+  onNavigateRoute = () => {}
+}) {
+  const room = roomData || getRoomById(roomId || 1);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState({
@@ -32,9 +32,22 @@ function RoomPage({ roomId: propRoomId }) {
     if (canvas && canvas.requestPointerLock) canvas.requestPointerLock();
   };
 
-  const handleNavigate = (route) => {
-    navigate(route);
+  const handleNavigate = (navPanel) => {
+    if (!navPanel) return;
+
+    if (typeof navPanel.nextRoomId === 'number') {
+      onNavigateRoom(navPanel.nextRoomId);
+      return;
+    }
+
+    if (typeof navPanel.nextRoute === 'string' && navPanel.nextRoute) {
+      onNavigateRoute(navPanel.nextRoute);
+    }
   };
+
+  if (!room) {
+    return <div style={{ color: '#fff', padding: '20px' }}>Room not found.</div>;
+  }
 
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
