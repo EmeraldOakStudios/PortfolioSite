@@ -54,6 +54,7 @@ class Portfolio_3D_Home_Plugin {
         <div class="wrap">
             <h1>Portfolio 3D Rooms</h1>
             <p>Set the page slug for each panel. Leave a slug blank to keep a panel empty.</p>
+            <p><strong>Room model paths</strong> should be typed relative to <code>wp-content/uploads</code>, for example <code>/2026/05/WellsFlat.glb</code>. Full URLs also work.</p>
             <p><strong>Expected IDs in source pages:</strong> p3d-title, p3d-caption, p3d-description, p3d-hero, p3d-video, p3d-link, p3d-link-2, ...</p>
 
             <form method="post">
@@ -65,7 +66,7 @@ class Portfolio_3D_Home_Plugin {
 
                     <table class="form-table" role="presentation">
                         <tr>
-                            <th scope="row"><label for="room-<?php echo esc_attr((string) $room_index); ?>-glb">Model URL</label></th>
+                            <th scope="row"><label for="room-<?php echo esc_attr((string) $room_index); ?>-glb">Model path or URL</label></th>
                             <td>
                                 <input
                                     id="room-<?php echo esc_attr((string) $room_index); ?>-glb"
@@ -74,6 +75,7 @@ class Portfolio_3D_Home_Plugin {
                                     class="regular-text"
                                     value="<?php echo esc_attr($room['glb']); ?>"
                                 />
+                                <p class="description">Example: <code>/2026/05/WellsFlat.glb</code></p>
                             </td>
                         </tr>
                         <tr>
@@ -231,7 +233,7 @@ class Portfolio_3D_Home_Plugin {
             'Portfolio3DHomeSettings',
             [
                 'apiEndpoint' => esc_url_raw(rest_url(self::REST_NAMESPACE . '/rooms')),
-                'assetBase' => esc_url_raw(plugin_dir_url($this->plugin_file) . 'assets/'),
+                'uploadsBaseUrl' => esc_url_raw(trailingslashit(wp_upload_dir()['baseurl'] ?? '')),
             ]
         );
     }
@@ -399,7 +401,7 @@ class Portfolio_3D_Home_Plugin {
         return [
             [
                 'id' => 1,
-                'glb' => '/models/TestRoom.glb',
+                'glb' => '/2026/05/TestRoom.glb',
                 'railMin' => -2,
                 'railMax' => 1,
                 'scrollSpeed' => 0.005,
@@ -421,7 +423,7 @@ class Portfolio_3D_Home_Plugin {
             ],
             [
                 'id' => 2,
-                'glb' => '/models/TestRoom2.glb',
+                'glb' => '/2026/05/TestRoom2.glb',
                 'railMin' => -2,
                 'railMax' => 1,
                 'scrollSpeed' => 0.005,
@@ -443,7 +445,7 @@ class Portfolio_3D_Home_Plugin {
             ],
             [
                 'id' => 3,
-                'glb' => '/models/TestRoom2.glb',
+                'glb' => '/2026/05/TestRoom2.glb',
                 'railMin' => -2,
                 'railMax' => 1,
                 'scrollSpeed' => 0.005,

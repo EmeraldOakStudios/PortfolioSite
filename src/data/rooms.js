@@ -1,7 +1,7 @@
 export const rooms = [
   {
     id: 1,
-    glb: '/models/TestRoom.glb',
+    glb: '/2026/05/TestRoom.glb',
     railMin: -2,
     railMax: 1,
     scrollSpeed: 0.005,
@@ -12,7 +12,7 @@ export const rooms = [
         position: [-2.25, 1.5, -1.25],
         rotation: [0, Math.PI / 2, 0],
         // Tier 1 — always visible
-        image: '/images/BluNPinkBox.png',
+        image: '/2026/05/BluNPinkBox.png',
         // Tier 2 — shown when user looks at panel
         title: 'Dazariath',
         caption: 'Animation Reel',
@@ -34,7 +34,7 @@ export const rooms = [
   },
   {
     id: 2,
-    glb: '/models/TestRoom2.glb',
+    glb: '/2026/05/TestRoom2.glb',
     railMin: -2,
     railMax: 1,
     scrollSpeed: 0.005,
@@ -50,7 +50,7 @@ export const rooms = [
   },
   {
     id: 3,
-    glb: '/models/TestRoom2.glb',
+    glb: '/2026/05/TestRoom2.glb',
     railMin: -2,
     railMax: 1,
     scrollSpeed: 0.005,

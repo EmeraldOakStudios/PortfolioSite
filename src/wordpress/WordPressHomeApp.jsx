@@ -2,29 +2,35 @@ import React, { useEffect, useMemo, useState } from 'react';
 import RoomPage from '../pages/RoomPage';
 import { rooms as fallbackRooms } from '../data/rooms';
 
-function resolveAssetUrl(url, assetBase) {
+function resolveUploadsUrl(url, uploadsBaseUrl) {
   if (!url || typeof url !== 'string') return '';
   if (/^(https?:)?\/\//i.test(url)) return url;
 
-  if (url.startsWith('/models') || url.startsWith('/images') || url.startsWith('/textures')) {
-    const base = (assetBase || '').replace(/\/+$/, '');
-    if (!base) return url;
-    return `${base}${url}`;
+  const uploadsBase = (uploadsBaseUrl || '').replace(/\/+$/, '');
+  if (!uploadsBase) return url;
+
+  const normalizedPath = url
+    .replace(/^\/wp-content\/uploads\//i, '')
+    .replace(/^wp-content\/uploads\//i, '')
+    .replace(/^\//, '');
+
+  if (!normalizedPath) {
+    return uploadsBase;
   }
 
-  return url;
+  return `${uploadsBase}/${normalizedPath}`;
 }
 
-function normalizeRoomAssets(rawRooms, assetBase) {
+function normalizeRoomAssets(rawRooms, uploadsBaseUrl) {
   if (!Array.isArray(rawRooms)) return [];
 
   return rawRooms.map((room) => ({
     ...room,
-    glb: resolveAssetUrl(room.glb, assetBase),
+    glb: resolveUploadsUrl(room.glb, uploadsBaseUrl),
     panels: Array.isArray(room.panels)
       ? room.panels.map((panel) => ({
           ...panel,
-          image: resolveAssetUrl(panel.image, assetBase),
+          image: resolveUploadsUrl(panel.image, uploadsBaseUrl),
           links: Array.isArray(panel.links) ? panel.links : []
         }))
       : []
@@ -36,7 +42,7 @@ function WordPressHomeApp() {
     ? window.Portfolio3DHomeSettings
     : {};
 
-  const [rooms, setRooms] = useState(normalizeRoomAssets(fallbackRooms, settings.assetBase));
+  const [rooms, setRooms] = useState(normalizeRoomAssets(fallbackRooms, settings.uploadsBaseUrl));
   const [currentRoomId, setCurrentRoomId] = useState(1);
 
   useEffect(() => {
@@ -52,7 +58,7 @@ function WordPressHomeApp() {
       })
       .then((payload) => {
         if (ignore) return;
-        const nextRooms = normalizeRoomAssets(payload?.rooms, settings.assetBase);
+        const nextRooms = normalizeRoomAssets(payload?.rooms, settings.uploadsBaseUrl);
         if (nextRooms.length > 0) {
           setRooms(nextRooms);
           if (!nextRooms.some((room) => room.id === currentRoomId)) {
@@ -67,7 +73,7 @@ function WordPressHomeApp() {
     return () => {
       ignore = true;
     };
-  }, [settings.apiEndpoint, settings.assetBase, currentRoomId]);
+  }, [settings.apiEndpoint, settings.uploadsBaseUrl, currentRoomId]);
 
   const activeRoom = useMemo(() => {
     if (!Array.isArray(rooms) || rooms.length === 0) return null;
