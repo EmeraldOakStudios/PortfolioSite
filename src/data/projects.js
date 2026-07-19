@@ -142,6 +142,23 @@ const projects = [
     credits: ['James Bryan', 'Steven Briscese', 'Sarah Long', 'James Skinner', 'Blue Diamond Gaming LLC'],
     creditCategory: ['Robotic Arm Model', 'Lurker Model and Textures', 'Gauntlets Model and Textures', 'Weapons Models', 'Harbinger Assets'],
     creditSource: ['https://www.jamesbryan.net', 'https://briscesesteven.wixsite.com', 'https://www.artstation.com/co2inferno', 'https://www.artstation.com/jamesskinner', 'https://bdsgaming.net'],
+  },  
+  {
+    id: 15,
+    title: 'Wee Tattie Studios Website',
+    description: 'The official website for Wee Tattie Studios, showcasing our portfolio and latest projects, including Castle Cairn and more.',
+    imageURL: 'https://cdna.artstation.com/p/assets/images/images/100/893/158/original/darragh-nolan-landingweetattiesite.gif?1784420531',
+    contentURL: [
+      'https://cdna.artstation.com/p/assets/images/images/100/893/232/original/darragh-nolan-landingweetattiesitemob.gif?1784420905',
+      'https://cdnb.artstation.com/p/assets/images/images/100/893/235/original/darragh-nolan-tattietalesweetattiesitemob.gif?1784420909',
+      'https://cdnb.artstation.com/p/assets/images/images/100/893/231/original/darragh-nolan-castlecairnweetattiesitemob.gif?1784420902',
+      'https://cdna.artstation.com/p/assets/images/images/100/893/162/large/darragh-nolan-pitchdeckweetattiesite.jpg?1784420537',
+    ],
+    tags: ['Game Dev','Web Dev','UX','UI Art'],
+    subTags: ['WordPress', 'React.Js', 'PHP', 'JavaScript', 'HTML'],
+    credits: ['Wee Tattie Studios'],
+    creditCategory: ['Website'],
+    creditSource: ['https://weetattiestudios.com/'],
   },
   {
     id: 6,
